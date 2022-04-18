@@ -2,6 +2,7 @@ package com.example.learndagger.di.components
 
 import android.app.Activity
 import com.example.learndagger.Ui.MainActivity
+import com.example.learndagger.Ui.home.HomeActivity
 import com.example.learndagger.di.modules.ActivityModule
 import com.example.learndagger.di.modules.ApplicationModule
 import com.example.learndagger.di.scope.ActivityScope
@@ -13,4 +14,6 @@ import javax.inject.Singleton
 interface ActivityComponents {
 
     fun inject(activity: MainActivity)
+
+    fun inject(activity: HomeActivity)
 }

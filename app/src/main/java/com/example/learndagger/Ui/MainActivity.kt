@@ -8,13 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.learndagger.MyApplication
 import com.example.learndagger.R
 import com.example.learndagger.Ui.adapter.CustomView
+import com.example.learndagger.Ui.base.BaseActivity
 import com.example.learndagger.Ui.home.HomeActivity
+import com.example.learndagger.di.components.ActivityComponents
 import com.example.learndagger.di.components.DaggerActivityComponents
 import com.example.learndagger.di.modules.ActivityModule
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<MainActivityViewModel>() {
     @Inject lateinit var homeViewModel:MainActivityViewModel
     @Inject lateinit var adapter: CustomView
 
@@ -22,13 +24,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var tvText:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         //DependancyComponent.inject(this)
-        DaggerActivityComponents.builder()
-            .applicationComponents((application as MyApplication).applicationComponents )
-            .activityModule(ActivityModule(this))
-            .build()
-            .inject(this)
         tvText=findViewById(R.id.tvText)
         val recyclerview = findViewById<RecyclerView>(R.id.rvAdapter)
         val data = ArrayList<String>()
@@ -45,4 +41,10 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun injectDependencies(activityComponent: ActivityComponents) {
+        activityComponent.inject(this)
+    }
+
+    override fun provideLayoutId(): Int =R.layout.activity_main
 }
